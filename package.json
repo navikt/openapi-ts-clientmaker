@@ -1,0 +1,28 @@
+{
+  "name": "@navikt/openapi-ts-clientorator",
+  "type": "module",
+  "description": "A base node js project to use when creating a typescript client from an openapi spec",
+  "keywords": [
+    "openapi",
+    "typescript"
+  ],
+  "author": "https://github.com/navikt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/navikt/openapi-typescript-clientorator.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "main": "tsc --project tsconfig.json && node dist/main.js"
+  },
+  "dependencies": {
+    "@nicolas-chaulet/openapi-typescript-codegen": "=0.27.10",
+    "rimraf": "^5.0.5",
+    "ts-morph": "^22.0.0",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7"
+  },
+  "packageManager": "yarn@4.1.1"
+}

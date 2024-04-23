@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "module": "./esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./esm/index.js"
+    }
+  },
+  "_generatedBy": "@navikt/openapi-ts-clientorator"
+}
