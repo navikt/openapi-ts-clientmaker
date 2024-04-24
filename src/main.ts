@@ -18,6 +18,7 @@ const removeOutDir = (outDirPath: string) => {
 type RequiredPackageJsonData = {
     name: string;
     version: string;
+    file?: never;
 }
 
 const basePackageJson = {
@@ -104,13 +105,80 @@ const readPackageJsonData = (packageJsonPath: string): RequiredPackageJsonData =
 }
 
 
+
+type CliArgs = {
+    openapiSpecFilePath: string;
+    packageJsonArgs: {
+        file: string;
+        name?: never;
+        version?: never;
+    } | RequiredPackageJsonData;
+    outDir: string;
+    clientClassName: string;
+}
+
+const resolveCliArgs = (): CliArgs => {
+    const args: CliArgs = {
+        openapiSpecFilePath: "in/openapi.json",
+        packageJsonArgs: {
+            file: "in/package.json"
+        },
+        outDir: "out/",
+        clientClassName: "Client"
+    }
+    const requiredPackageJsonData: RequiredPackageJsonData = {name: "", version: ""}
+
+    // Helper to get the argument value following a named argument specification
+    const getNextArgVal = (currentIdx: number) => {
+        const nextVal = process.argv[currentIdx + 1]
+        if (nextVal !== undefined && nextVal.trim().length > 0) {
+            return nextVal
+        } else {
+            throw new Error(`Named argument ${process.argv[currentIdx]} must be followed by non empty value string`)
+        }
+    }
+
+    for(let idx = 2; idx < process.argv.length; idx++) {
+        const arg = process.argv[idx]
+        switch (arg) {
+            case "--openapi-spec-file":
+                args.openapiSpecFilePath = getNextArgVal(idx)
+                break;
+            case "--package-json-file":
+                args.packageJsonArgs = {file: getNextArgVal(idx)}
+                break;
+            case "--package-json-name":
+                requiredPackageJsonData.name = getNextArgVal(idx)
+                break;
+            case "--package-json-version":
+                requiredPackageJsonData.version = getNextArgVal(idx)
+                break;
+            case "--out-dir":
+                args.outDir = getNextArgVal(idx)
+                break;
+            case "--client-name":
+                args.clientClassName = getNextArgVal(idx)
+                break;
+        }
+    }
+    if(requiredPackageJsonData.name.length > 0 !== requiredPackageJsonData.version.length > 0) {
+        throw new Error(`both --package-json-name and --package-json-version must be set if one of them is`)
+    }
+    if(requiredPackageJsonData.name.length > 0 && requiredPackageJsonData.version.length > 0) {
+        args.packageJsonArgs = requiredPackageJsonData
+    }
+    return args
+}
+
 const main = async () => {
-    const packageJsonData = readPackageJsonData("in/package.json")
+    // Read in command line arguments
+    const {openapiSpecFilePath, packageJsonArgs, outDir, clientClassName} = resolveCliArgs()
+    const packageJsonData = packageJsonArgs.file !== undefined ? readPackageJsonData(packageJsonArgs.file) : packageJsonArgs
     await createClient({
-        openapiSpecFilePath: `./in/openapi.json`,
+        openapiSpecFilePath,
         packageJsonData,
-        outDir: `./out/`,
-        clientClassName: "K9SakClient"
+        outDir,
+        clientClassName,
     })
 }
 
