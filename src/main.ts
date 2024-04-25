@@ -2,6 +2,7 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { generate } from '@nicolas-chaulet/openapi-typescript-codegen';
 import { Project } from 'ts-morph';
+import { copyFile } from "node:fs/promises";
 
 const removeOutDir = (outDirPath: string) => {
     const resolvedDir = path.resolve(outDirPath)
@@ -12,7 +13,11 @@ const removeOutDir = (outDirPath: string) => {
     if(!resolvedDir.startsWith(cwd)) {
         throw new Error(`deleting dir outside of working dir is not allowed. out dir must be within working dir`)
     }
-    fs.rmSync(resolvedDir, {recursive: true, force: true})
+    // Delete all files and directories found in given outDirPath, without removing outDirPath itself.
+    fs.readdirSync(resolvedDir).forEach(entry => {
+        const toDelete = path.resolve(resolvedDir, entry)
+        fs.rmSync(toDelete, {recursive: true, force: true})
+    })
 }
 
 type RequiredPackageJsonData = {
@@ -81,8 +86,12 @@ const createClient = async (opts: CreateClientOpts) => {
         clientName: opts.clientClassName,
         output: path.resolve(opts.outDir, "src")
     })
+    //We can allow user provided custom tsconfig files in the future. For now, we just use a hardcoded default.
+    // Copy tsconfig.out.json to out dir. Required so that the relative paths in it is correct when compiling
+    const tsconfigFilePath = path.resolve(opts.outDir, 'tsconfig.out.json')
+    await copyFile('./tsconfig.out.json', tsconfigFilePath)
     // Compile generated typescript
-    await compile(`src/tsconfig.out.json`) // <- We can allow user provided custom tsconfig files in the future.
+    await compile(tsconfigFilePath)
     createOutPackageJson(opts.outDir, opts.packageJsonData)
     createYarnLock(opts.outDir)
 }

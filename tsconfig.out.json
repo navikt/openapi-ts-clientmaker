@@ -1,6 +1,10 @@
 {
   // Denne fila blir brukt når generert typescript kode i /out/src skal kompilerast til javascript i /out/esm.
-  // Basert på https://github.com/tsconfig/bases/blob/main/bases/vite-react.json og
+  // This file is used when generated typescript code in <out>/src is compiled into javascript in <out>/esm.
+  // The file must be copied to the <out>/ directory before invoking the typescript compile, the paths in here are
+  // relative to that assumption.
+  //
+  // Based on https://github.com/tsconfig/bases/blob/main/bases/vite-react.json and
   // https://github.com/tsconfig/bases/blob/main/bases/strictest.json.
   "compilerOptions": {
     "target": "es2020",
@@ -20,9 +24,9 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "outDir": "../out/esm",
+    "outDir": "./esm",
     "declaration": true,
     "declarationMap": true,
   },
-  "include": ["../out/src/"]
+  "include": ["./src/"]
 }
