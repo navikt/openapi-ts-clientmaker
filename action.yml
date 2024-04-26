@@ -27,4 +27,4 @@ inputs:
     default: 'Client'
 runs:
   using: 'node20'
-  main: 'action.js'
+  main: 'dist/action.js'
