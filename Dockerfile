@@ -4,6 +4,6 @@ COPY node_modules /node_modules/
 COPY package.json /
 # tsconfig.out.json is used when compiling the generated source, so must be available in the runtime env.
 COPY tsconfig.out.json /
-COPY dist/main.js /dist/main.js
+COPY dist/ /dist/
 WORKDIR /
 ENTRYPOINT ["/nodejs/bin/node", "dist/main.js"]

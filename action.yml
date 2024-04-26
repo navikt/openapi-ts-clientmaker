@@ -1,0 +1,30 @@
+name: 'openapi typescript clientmaker'
+description: 'Generate typescript client from openapi.json'
+inputs:
+  openapi-spec-file:
+    description: 'Path to openapi json file specifying api to generate client for'
+    required: false
+    default: 'in/openapi.json'
+  package-json-file:
+    description: 'Path to package.json file to use when creating package.json for generated npm package'
+    required: false
+    default: 'in/package.json'
+  package-json-name:
+    description: 'May be used instead of or in addition to package-json-file, to specify the generated npm package name'
+    required: false
+    default: ''
+  package-json-version:
+    description: 'May be used instead of or in addition to package-json-file, to specify the generated npm package version'
+    required: false
+    default: ''
+  out-dir:
+    description: 'Generated npm package content is written to this directory path'
+    required: true
+    default: 'out/'
+  client-name:
+    description: 'Generated typescript client class is given this class name'
+    required: true
+    default: 'Client'
+runs:
+  using: 'node20'
+  main: 'action.js'

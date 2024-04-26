@@ -3,6 +3,9 @@ openapi-ts-clientmaker
 
 Dette prosjektet produserer eit node js CLI program som kan generere ein typescript klient npm pakke ut frå ein gitt openapi spesifikasjon.
 
+Det publiserast også som reusable github action så ulike prosjekt kan bruke det i build pipelines som ein javascript action. 
+På grunn av dette er _node_modules_ og _dist_ katalog med kompilert kjeldekode sjekka inn i versjonskontroll.
+
 Det er tenkt brukt når ein har eit backend prosjekt basert på openapi, og ønsker å automatisk generere typescript (javascript) klient for dette.
 
 Det blir og bygd eit multiplatform docker image som gjere det enkelt å køyre generatoren lokalt utan å måtte installere/sette opp noko anna enn docker.
@@ -25,7 +28,8 @@ Denne må minst innehalde _name_ og _version_ prop, men kan og innehalde feks _l
 Som eit alternativ til å ha ei slik fil kan ein bruke _--package-json-name_ og _--package-json-version_ parameter.
 
 `--package-json-name` og `--package-json-version`<br>
-Disse kan brukast istadenfor _--package-json-file_ til å fylle ut _name_ og _version_ prop i generert package.json
+Disse kan brukast istadenfor eller i tillegg til _--package-json-file_ til å fylle ut _name_ og _version_ prop i generert package.json
+Overstyrer verdiar frå package.json viss begge er definert.
 
 `--out-dir out/`<br>
 Generert innhald blir skrive ut til denne katalog
@@ -48,10 +52,14 @@ node dist/main.js \
 docker run --rm \
   --mount type=bind,source="$(pwd)"/input,target=/in \
   --mount type=bind,source="$(pwd)"/output,target=/out \
+  openapi-ts-clientmaker -- \
   --openapi-spec-file in/openapi.json \
   --package-json-file in/package.json \
   --client-name MyClient
 ```
+
+## Build
+Litt info om bygg og deploy av prosjektet finnast i [build/README.md](build/README.md)
 
 ## Henvendelser
 Dette prosjektet er vedlikeholdt av [navikt/k9saksbehandling](CODEOWNERS) 

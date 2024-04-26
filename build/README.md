@@ -1,12 +1,12 @@
 Build
 =====
 
-## Local 
+## Local Docker build
 This is the steps to locally build the docker image that can be run as a CLI to generate a typescript client from a openapi.json file.
 
 1. `yarn install` To install the required dependencies.
 2. `yarn compile` To compile the _src/main.ts_ to _dist/main.js_ ready for use by node js.
-3. `docker buildx build --platform linux/amd64,linux/arm64 --output type=docker --tag openapi-ts-clientmaker` To build the docker image.
+3. `docker buildx build --platform linux/amd64,linux/arm64 --output type=docker --tag openapi-ts-clientmaker .` To build the docker image.
 
 **NB:** The docker image is built as a multi-platform image so that it can be efficiently run on both intel and apple based platforms.
 For the build to work locally, some [extra setup of Docker Desktop](https://docs.docker.com/build/building/multi-platform/) may be required:

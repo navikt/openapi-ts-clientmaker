@@ -5,6 +5,26 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@actions/core@npm:^1.10.1":
+  version: 1.10.1
+  resolution: "@actions/core@npm:1.10.1"
+  dependencies:
+    "@actions/http-client": "npm:^2.0.1"
+    uuid: "npm:^8.3.2"
+  checksum: 10c0/7a61446697a23dcad3545cf0634dedbdedf20ae9a0ee6ee977554589a15deb4a93593ee48a41258933d58ce0778f446b0d2c162b60750956fb75e0b9560fb832
+  languageName: node
+  linkType: hard
+
+"@actions/http-client@npm:^2.0.1":
+  version: 2.2.1
+  resolution: "@actions/http-client@npm:2.2.1"
+  dependencies:
+    tunnel: "npm:^0.0.6"
+    undici: "npm:^5.25.4"
+  checksum: 10c0/371771e68fcfe1383e59657eb5bc421aba5e1826f5e497efd826236b64fc1ff11f0bc91f936d7f1086f6bb3fd209736425a4d357b98fdfb7a8d054cbb84680e8
+  languageName: node
+  linkType: hard
+
 "@apidevtools/json-schema-ref-parser@npm:^10.1.0":
   version: 10.1.0
   resolution: "@apidevtools/json-schema-ref-parser@npm:10.1.0"
@@ -15,6 +35,13 @@ __metadata:
     js-yaml: "npm:^4.1.0"
     lodash.clonedeep: "npm:^4.5.0"
   checksum: 10c0/2d54b04e8d73a29be20100c29e2c9b6e6e6c30c476f536daee868889a09ddc6809afd96a798ee37c66be6242b7cff19f1ce2ff91d3e54de134c63b46d888a583
+  languageName: node
+  linkType: hard
+
+"@fastify/busboy@npm:^2.0.0":
+  version: 2.1.1
+  resolution: "@fastify/busboy@npm:2.1.1"
+  checksum: 10c0/6f8027a8cba7f8f7b736718b013f5a38c0476eea67034c94a0d3c375e2b114366ad4419e6a6fa7ffc2ef9c6d3e0435d76dd584a7a1cbac23962fda7650b579e3
   languageName: node
   linkType: hard
 
@@ -29,6 +56,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@navikt/openapi-ts-clientmaker@workspace:."
   dependencies:
+    "@actions/core": "npm:^1.10.1"
     "@nicolas-chaulet/openapi-typescript-codegen": "npm:=0.27.10"
     "@types/node": "npm:^20.12.7"
     ts-morph: "npm:^22.0.0"
@@ -417,6 +445,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tunnel@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "tunnel@npm:0.0.6"
+  checksum: 10c0/e27e7e896f2426c1c747325b5f54efebc1a004647d853fad892b46d64e37591ccd0b97439470795e5262b5c0748d22beb4489a04a0a448029636670bfd801b75
+  languageName: node
+  linkType: hard
+
 "typescript@npm:^5.3.3":
   version: 5.4.5
   resolution: "typescript@npm:5.4.5"
@@ -453,10 +488,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"undici@npm:^5.25.4":
+  version: 5.28.4
+  resolution: "undici@npm:5.28.4"
+  dependencies:
+    "@fastify/busboy": "npm:^2.0.0"
+  checksum: 10c0/08d0f2596553aa0a54ca6e8e9c7f45aef7d042c60918564e3a142d449eda165a80196f6ef19ea2ef2e6446959e293095d8e40af1236f0d67223b06afac5ecad7
+  languageName: node
+  linkType: hard
+
 "universalify@npm:^2.0.0":
   version: 2.0.1
   resolution: "universalify@npm:2.0.1"
   checksum: 10c0/73e8ee3809041ca8b818efb141801a1004e3fc0002727f1531f4de613ea281b494a40909596dae4a042a4fb6cd385af5d4db2e137b1362e0e91384b828effd3a
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^8.3.2":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 10c0/bcbb807a917d374a49f475fae2e87fdca7da5e5530820ef53f65ba1d12131bd81a92ecf259cc7ce317cbe0f289e7d79fdfebcef9bfa3087c8c8a2fa304c9be54
   languageName: node
   linkType: hard
 
