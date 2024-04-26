@@ -1,7 +1,7 @@
 {
-  "name": "@navikt/openapi-ts-clientorator",
+  "name": "@navikt/openapi-ts-clientmaker",
   "type": "module",
-  "description": "A base node js project to use when creating a typescript client from an openapi spec",
+  "description": "A node js cli to use when creating a typescript client from an openapi spec",
   "keywords": [
     "openapi",
     "typescript"
@@ -9,7 +9,7 @@
   "author": "https://github.com/navikt",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/navikt/openapi-typescript-clientorator.git"
+    "url": "git+https://github.com/navikt/openapi-typescript-clientmaker.git"
   },
   "license": "MIT",
   "scripts": {

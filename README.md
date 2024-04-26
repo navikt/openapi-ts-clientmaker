@@ -1,9 +1,13 @@
-openapi-ts-clientorator
+openapi-ts-clientmaker
 =======================
 
 Dette prosjektet produserer eit node js CLI program som kan generere ein typescript klient npm pakke ut frå ein gitt openapi spesifikasjon.
 
 Det er tenkt brukt når ein har eit backend prosjekt basert på openapi, og ønsker å automatisk generere typescript (javascript) klient for dette.
+
+Det blir og bygd eit multiplatform docker image som gjere det enkelt å køyre generatoren lokalt utan å måtte installere/sette opp noko anna enn docker.
+
+Dette er ein tidleg versjon, lagd for spesifikke behov. Ikkje eit finpussa produkt meint for alle å ta i bruk.
 
 ## Bruk
 
@@ -29,7 +33,7 @@ Generert innhald blir skrive ut til denne katalog
 `--client-name Client`<br>
 Generert typescript klient for gitt spesifikasjon blir gitt dette klassenamn.
 
-#### Eksempel på kommandolinje kall
+#### Eksempel på kommandolinje kall med node js direkte
 ```
 node dist/main.js \
     --openapi-spec-file ../../openapi.json \
@@ -37,6 +41,16 @@ node dist/main.js \
     --package-json-version "0.0.1-alpha" \
     --out-dir my-pkg \
     --client-name MyClient
+```
+
+#### Eksempel på kommandolinje kall med docker image
+```shell
+docker run --rm \
+  --mount type=bind,source="$(pwd)"/input,target=/in \
+  --mount type=bind,source="$(pwd)"/output,target=/out \
+  --openapi-spec-file in/openapi.json \
+  --package-json-file in/package.json \
+  --client-name MyClient
 ```
 
 ## Henvendelser

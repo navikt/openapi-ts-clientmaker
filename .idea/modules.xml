@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/openapi-ts-clientorator.iml" filepath="$PROJECT_DIR$/openapi-ts-clientorator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openapi-ts-clientmaker.iml" filepath="$PROJECT_DIR$/openapi-ts-clientmaker.iml" />
     </modules>
   </component>
 </project>

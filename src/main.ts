@@ -34,7 +34,7 @@ const basePackageJson = {
             "import": "./esm/index.js"
         }
     },
-    "_generatedBy": "@navikt/openapi-ts-clientorator"
+    "_generatedBy": "@navikt/openapi-ts-clientmaker"
 }
 
 

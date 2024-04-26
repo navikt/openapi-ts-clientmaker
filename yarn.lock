@@ -25,9 +25,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/openapi-ts-clientorator@workspace:.":
+"@navikt/openapi-ts-clientmaker@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@navikt/openapi-ts-clientorator@workspace:."
+  resolution: "@navikt/openapi-ts-clientmaker@workspace:."
   dependencies:
     "@nicolas-chaulet/openapi-typescript-codegen": "npm:=0.27.10"
     "@types/node": "npm:^20.12.7"

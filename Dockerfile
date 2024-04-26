@@ -6,4 +6,4 @@ COPY package.json /
 COPY tsconfig.out.json /
 COPY dist/main.js /dist/main.js
 WORKDIR /
-CMD ["dist/main.js"]
+ENTRYPOINT ["/nodejs/bin/node", "dist/main.js"]
