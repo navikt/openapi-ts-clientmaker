@@ -58,6 +58,17 @@ docker run --rm \
   --client-name MyClient
 ```
 
+#### Eksempel på bruk i github action.yaml
+```yaml
+    - name: Typescript generate
+      uses: navikt/openapi-ts-clientmaker@main
+      with:
+        openapi-spec-file: web/target/myproject.openapi.json
+        package-json-file: web/src/main/openapi-ts-client/package.json
+        out-dir: web/target/ts-client
+        client-name: MyClient
+```
+
 ## Build
 Litt info om bygg og deploy av prosjektet finnast i [build/README.md](build/README.md)
 
