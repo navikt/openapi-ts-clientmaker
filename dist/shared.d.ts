@@ -1,3 +1,4 @@
+export declare const getScriptDirPath: () => string;
 export type RequiredPackageJsonData = {
     name: string;
     version: string;

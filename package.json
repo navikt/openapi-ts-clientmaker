@@ -14,8 +14,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "compile": "tsc --project tsconfig.json",
-    "main": "tsc --project tsconfig.json && node dist/main.js"
+    "compile": "tsc --project tsconfig.json && node dist/copyTsconfig.js",
+    "main": "yarn compile && node dist/main.js"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",

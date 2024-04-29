@@ -1,8 +1,14 @@
-import * as fs from 'node:fs'
-import * as path from 'node:path'
+import fs from 'node:fs'
+import path from 'node:path'
 import { generate } from '@nicolas-chaulet/openapi-typescript-codegen';
 import { Project } from 'ts-morph';
 import { copyFile } from "node:fs/promises";
+import { fileURLToPath } from "url";
+
+export const getScriptDirPath = () => {
+    const scriptFilePath = fileURLToPath(import.meta.url)
+    return path.dirname(scriptFilePath)
+}
 
 const prepareOutDir = (outDirPath: string) => {
     const resolvedDir = path.resolve(outDirPath)
@@ -91,7 +97,7 @@ export const createClient = async (opts: CreateClientOpts) => {
     //We can allow user provided custom tsconfig files in the future. For now, we just use a hardcoded default.
     // Copy tsconfig.out.json to out dir. Required so that the relative paths in it is correct when compiling
     const tsconfigFilePath = path.resolve(opts.outDir, 'tsconfig.out.json')
-    await copyFile('./tsconfig.out.json', tsconfigFilePath)
+    await copyFile(path.resolve(getScriptDirPath(), 'tsconfig.out.json'), tsconfigFilePath)
     // Compile generated typescript
     await compile(tsconfigFilePath)
     createOutPackageJson(opts.outDir, opts.packageJsonData)
