@@ -4,7 +4,7 @@ import { generate } from '@nicolas-chaulet/openapi-typescript-codegen';
 import { Project } from 'ts-morph';
 import { copyFile } from "node:fs/promises";
 
-const removeOutDir = (outDirPath: string) => {
+const prepareOutDir = (outDirPath: string) => {
     const resolvedDir = path.resolve(outDirPath)
     const cwd = path.resolve()
     if(resolvedDir === "/") {
@@ -13,6 +13,8 @@ const removeOutDir = (outDirPath: string) => {
     if(!resolvedDir.startsWith(cwd)) {
         throw new Error(`deleting dir outside of working dir is not allowed. out dir must be within working dir`)
     }
+    // Create directory if it doesn't exist
+    fs.mkdirSync(resolvedDir, {recursive: true})
     // Delete all files and directories found in given outDirPath, without removing outDirPath itself.
     fs.readdirSync(resolvedDir).forEach(entry => {
         const toDelete = path.resolve(resolvedDir, entry)
@@ -77,7 +79,7 @@ export type CreateClientOpts = {
 }
 
 export const createClient = async (opts: CreateClientOpts) => {
-    removeOutDir(opts.outDir)
+    prepareOutDir(opts.outDir)
     // Generate typescript from given openapi spec
     await generate({
         input: opts.openapiSpecFilePath,
