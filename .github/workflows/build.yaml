@@ -32,9 +32,11 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           yarn install
-          git diff --quiet || (git add node_modules/ && git commit -m "dependencies in node_modules/ updated by yarn install")
+          git add node_modules/ 
+          git diff --quiet --staged node_modules/ || git commit -m "dependencies in node_modules/ updated by yarn install"
           yarn compile
-          git diff --quiet || (git add dist/ && git commit -m "built javascript in dist/ updated by yarn compile")
+          git add dist/
+          git diff --quiet --staged dist/ || git commit -m "built javascript in dist/ updated by yarn compile"
           git push
 
 # build Dockerfile
