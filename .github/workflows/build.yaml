@@ -31,6 +31,8 @@ jobs:
         # Build result (node_modules and dist) must be committed to repo, since this is used as GitHub (javascript) action
         shell: bash
         run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
           yarn install
           git diff --quiet || (git add -A && git commit -m "dependencies in node_modules/ updated by yarn install")
           yarn compile
