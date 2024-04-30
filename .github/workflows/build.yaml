@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'CODEOWNERS'
+
+jobs:
+  build-javascript:
+    name: Build Javascript
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .yarnrc.yml
+        run: |
+          yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
+          yarn config set npmScopes.navikt.npmAlwaysAuth true
+          yarn config set npmScopes.navikt.npmAuthToken $NPM_AUTH_TOKEN
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+          cache: 'yarn'
+      - name: install, build and commit javascript
+        # Build result (node_modules and dist) must be committed to repo, since this is used as GitHub (javascript) action
+        shell: bash
+        run: |
+          yarn install
+          git diff --quiet || (git add -A && git commit -m "dependencies in node_modules/ updated by yarn install")
+          yarn compile
+          git diff --quiet || (git add -A && git commit -m "built javascript in dist/ updated by yarn compile")
+          git push
+
+# build Dockerfile
+# push build Docker image to Google Artifact Repository
