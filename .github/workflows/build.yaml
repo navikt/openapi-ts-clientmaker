@@ -38,6 +38,19 @@ jobs:
           git add dist/
           git diff --quiet --staged dist/ || git commit -m "built javascript in dist/ updated by yarn compile"
           git push
+      - id: version
+        run: echo "version=$(npm pkg get version | jq --raw-output . -)" >> "$GITHUB_OUTPUT"
 
 # build Dockerfile
 # push build Docker image to Google Artifact Repository
+  build-docker:
+    name: Build Docker
+    needs: [build-javascript]
+    uses: navikt/sif-gha-workflows/.github/actions/maven/build-push-docker-image/action.yml@main
+    with:
+      build-version: "${{ needs.build-javascript.outputs.version }}"
+      project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }} # required, but is defined as an organization variable
+      identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} # required, but is defined as an organization secret
+      push-image: false
+      image_suffix: cli
+
