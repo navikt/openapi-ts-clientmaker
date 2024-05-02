@@ -46,6 +46,7 @@ jobs:
   build-docker:
     name: Build Docker
     needs: [build-javascript]
+    if: github.ref == 'refs/heads/main'
     environment: production
     permissions:
       contents: read
