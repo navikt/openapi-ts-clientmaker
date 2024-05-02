@@ -15,10 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .yarnrc.yml
+      - name: Setup yarn
         run: |
-          yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
-          yarn config set npmScopes.navikt.npmAlwaysAuth true
+          corepack enable
           yarn config set npmScopes.navikt.npmAuthToken $NPM_AUTH_TOKEN
         env:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
@@ -30,11 +29,36 @@ jobs:
         # Build result (node_modules and dist) must be committed to repo, since this is used as GitHub (javascript) action
         shell: bash
         run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
           yarn install
-          git diff --quiet || (git add -A && git commit -m "dependencies in node_modules/ updated by yarn install")
+          git add node_modules/ 
+          git diff --quiet --staged node_modules/ || git commit -m "dependencies in node_modules/ updated by yarn install"
           yarn compile
-          git diff --quiet || (git add -A && git commit -m "built javascript in dist/ updated by yarn compile")
+          git add dist/
+          git diff --quiet --staged dist/ || git commit -m "built javascript in dist/ updated by yarn compile"
           git push
+      - id: version
+        run: echo "version=$(npm pkg get version | jq --raw-output . -)" >> "$GITHUB_OUTPUT"
 
 # build Dockerfile
 # push build Docker image to Google Artifact Repository
+  build-docker:
+    name: Build Docker
+    needs: [build-javascript]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: navikt/sif-gha-workflows/.github/actions/maven/build-push-docker-image@main
+        with:
+          build-version: "${{ needs.build-javascript.outputs.version }}"
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }} # required, but is defined as an organization variable
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} # required, but is defined as an organization secret
+          push-image: push
+          image_suffix: cli
+
