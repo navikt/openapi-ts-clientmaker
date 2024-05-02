@@ -46,6 +46,7 @@ jobs:
   build-docker:
     name: Build Docker
     needs: [build-javascript]
+    environment: production
     permissions:
       contents: read
       id-token: write
