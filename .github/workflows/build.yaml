@@ -48,7 +48,7 @@ jobs:
     needs: [build-javascript]
     runs-on: ubuntu-latest
     steps:
-      - uses: navikt/sif-gha-workflows/.github/actions/maven/build-push-docker-image/action.yml@main
+      - uses: navikt/sif-gha-workflows/.github/actions/maven/build-push-docker-image@main
         with:
           build-version: "${{ needs.build-javascript.outputs.version }}"
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }} # required, but is defined as an organization variable
