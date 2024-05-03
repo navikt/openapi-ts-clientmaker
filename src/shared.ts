@@ -88,7 +88,7 @@ export const createClient = async (opts: CreateClientOpts) => {
     prepareOutDir(opts.outDir)
     // Generate typescript from given openapi spec
     await generate({
-        input: opts.openapiSpecFilePath,
+        XXinput: opts.openapiSpecFilePath,
         useUnionTypes: true,
         exportSchemas: true,
         clientName: opts.clientClassName,
