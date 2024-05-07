@@ -127,7 +127,7 @@ export const readPackageJsonData = (packageJsonPath: string): RequiredPackageJso
  * The generated npm package should always be of expected semantic versioning form. (<major>.<minor>.<patch>). This
  * function is used to normalize input version string to that.
  *
- * If there is more than three dots in the input, all dots after the third is replaced with a - character.
+ * If there is more than three dots in the input, all dots after the third is removed.
  *
  * If there is less than three dots in the input, ".0" is added until there is three dots
  *
@@ -143,7 +143,7 @@ const normalizePackageJsonVersion = (packageJsonVersion: string): string => {
     }
     let patch = ""
     if(rest.length > 0) {
-        patch = rest.join("-")
+        patch = rest.join("")
     }
     if(undefinedIfEmpty(patch) === undefined) {
         patch = "0"
