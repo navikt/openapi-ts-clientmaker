@@ -97,11 +97,38 @@ export const readPackageJsonData = (packageJsonPath) => {
     }
     throw new Error(`input package.json must contain non empty name and version property of type string`);
 };
+/**
+ * The generated npm package should always be of expected semantic versioning form. (<major>.<minor>.<patch>). This
+ * function is used to normalize input version string to that.
+ *
+ * If there is more than three dots in the input, all dots after the third is replaced with a - character.
+ *
+ * If there is less than three dots in the input, ".0" is added until there is three dots
+ *
+ * @param packageJsonVersion
+ */
+const normalizePackageJsonVersion = (packageJsonVersion) => {
+    let [major, minor, ...rest] = packageJsonVersion.split(".");
+    if (undefinedIfEmpty(major ?? '') === undefined) {
+        major = "0";
+    }
+    if (undefinedIfEmpty(minor ?? '') === undefined) {
+        minor = "0";
+    }
+    let patch = "";
+    if (rest.length > 0) {
+        patch = rest.join("-");
+    }
+    if (undefinedIfEmpty(patch) === undefined) {
+        patch = "0";
+    }
+    return `${major}.${minor}.${patch}`;
+};
 export const resolveRequiredPackageJsonData = (packageJsonFile, packageJsonName, packageJsonVersion) => {
     const fileData = packageJsonFile !== undefined ? readPackageJsonData(packageJsonFile) : undefined;
     const argData = {
         name: packageJsonName,
-        version: packageJsonVersion
+        version: packageJsonVersion !== undefined ? normalizePackageJsonVersion(packageJsonVersion) : undefined,
     };
     if (fileData !== undefined) {
         return {
