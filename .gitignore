@@ -2,3 +2,4 @@
 /out/
 *.iml
 /.yarn/
+.DS_Store
