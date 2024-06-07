@@ -15,6 +15,7 @@
   "license": "MIT",
   "scripts": {
     "compile": "tsc --project tsconfig.json && node dist/copyTsconfig.js",
+    "test": "tsc --project tsconfig.test.json && node testdist/test/test.js",
     "main": "yarn compile && node dist/main.js"
   },
   "dependencies": {

@@ -3,3 +3,4 @@
 *.iml
 /.yarn/
 .DS_Store
+/testdist/

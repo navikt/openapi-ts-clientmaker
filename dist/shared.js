@@ -105,9 +105,10 @@ export const readPackageJsonData = (packageJsonPath) => {
  *
  * If there is less than three dots in the input, ".0" is added until there is three dots
  *
- * @param packageJsonVersion
+ * If there is a dash (-) in the patch version input, it and everything after is removed, so that it is not interpreted
+ * as a "pre-release" version.
  */
-const normalizePackageJsonVersion = (packageJsonVersion) => {
+export const normalizePackageJsonVersion = (packageJsonVersion) => {
     let [major, minor, ...rest] = packageJsonVersion.split(".");
     if (undefinedIfEmpty(major ?? '') === undefined) {
         major = "0";

@@ -133,7 +133,7 @@ export const readPackageJsonData = (packageJsonPath: string): RequiredPackageJso
  *
  * @param packageJsonVersion
  */
-const normalizePackageJsonVersion = (packageJsonVersion: string): string => {
+export const normalizePackageJsonVersion = (packageJsonVersion: string): string => {
     let [major, minor, ...rest] = packageJsonVersion.split(".")
     if(undefinedIfEmpty(major ?? '') === undefined) {
         major = "0"
