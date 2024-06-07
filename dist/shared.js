@@ -105,9 +105,10 @@ export const readPackageJsonData = (packageJsonPath) => {
  *
  * If there is less than three dots in the input, ".0" is added until there is three dots
  *
- * @param packageJsonVersion
+ * If removePreRelaseTag is true, and there is a dash (-) in the patch version input, it and everything after is removed,
+ * so that it is not interpreted as a "pre-release" version by javascript package management.
  */
-export const normalizePackageJsonVersion = (packageJsonVersion) => {
+export const normalizePackageJsonVersion = (packageJsonVersion, removePreRelaseTag) => {
     let [major, minor, ...rest] = packageJsonVersion.split(".");
     if (undefinedIfEmpty(major ?? '') === undefined) {
         major = "0";
@@ -118,6 +119,13 @@ export const normalizePackageJsonVersion = (packageJsonVersion) => {
     let patch = "";
     if (rest.length > 0) {
         patch = rest.join("");
+        if (removePreRelaseTag) {
+            // Remove any pre-release tag
+            const dashPos = patch.indexOf("-");
+            if (dashPos > -1) {
+                patch = patch.substring(0, dashPos);
+            }
+        }
     }
     if (undefinedIfEmpty(patch) === undefined) {
         patch = "0";
@@ -128,7 +136,7 @@ export const resolveRequiredPackageJsonData = (packageJsonFile, packageJsonName,
     const fileData = packageJsonFile !== undefined ? readPackageJsonData(packageJsonFile) : undefined;
     const argData = {
         name: packageJsonName,
-        version: packageJsonVersion !== undefined ? normalizePackageJsonVersion(packageJsonVersion) : undefined,
+        version: packageJsonVersion !== undefined ? normalizePackageJsonVersion(packageJsonVersion, true) : undefined,
     };
     if (fileData !== undefined) {
         return {

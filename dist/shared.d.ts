@@ -21,9 +21,10 @@ export declare const readPackageJsonData: (packageJsonPath: string) => RequiredP
  *
  * If there is less than three dots in the input, ".0" is added until there is three dots
  *
- * @param packageJsonVersion
+ * If removePreRelaseTag is true, and there is a dash (-) in the patch version input, it and everything after is removed,
+ * so that it is not interpreted as a "pre-release" version by javascript package management.
  */
-export declare const normalizePackageJsonVersion: (packageJsonVersion: string) => string;
+export declare const normalizePackageJsonVersion: (packageJsonVersion: string, removePreRelaseTag: boolean) => string;
 export declare const resolveRequiredPackageJsonData: (packageJsonFile: string | undefined, packageJsonName: string | undefined, packageJsonVersion: string | undefined) => RequiredPackageJsonData;
 export declare const getDefaultParameterValues: () => {
     packageJsonVersion: string | undefined;
