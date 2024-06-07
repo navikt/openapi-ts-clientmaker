@@ -8,11 +8,29 @@ on:
       - 'CODEOWNERS'
 
 jobs:
+  test:
+    name: Test
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup yarn
+        run: |
+          corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+          cache: 'yarn'
+      - run: yarn install --immutable
+      - run: yarn test
+
   build-javascript:
     name: Build Javascript
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    needs: [test]
     steps:
       - uses: actions/checkout@v4
       - name: Setup yarn
