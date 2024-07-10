@@ -2,6 +2,8 @@ name: Build
 
 on:
   push:
+    branches:
+      - '*' # Avoid running pipeline on tag pushes (it doesn't work).
     paths-ignore:
       - '**.md'
       - '.gitignore'
