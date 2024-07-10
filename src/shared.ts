@@ -90,6 +90,14 @@ export const createClient = async (opts: CreateClientOpts) => {
     const generateOpts = defineConfig({
         input: opts.openapiSpecFilePath,
         name: opts.clientClassName,
+        services: {
+            asClass: true,
+        },
+        schemas: {
+            export: true,
+            // Reduce bundle size by not outputting descriptions:
+            type: 'form'
+        },
         output: path.resolve(opts.outDir, "src"),
         useOptions: false,
     })
