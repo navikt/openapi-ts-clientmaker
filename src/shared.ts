@@ -60,15 +60,22 @@ const compile = async (tsConfigFilePath: string) => {
     const project = new Project({
         tsConfigFilePath,
     })
+    let errorDetected = false
     for(const diagnostic of project.getPreEmitDiagnostics()) {
+        errorDetected = true
         console.info(`ts: ${diagnostic.getSourceFile()?.getFilePath()}, line ${diagnostic.getLineNumber()}:`, diagnostic.getMessageText())
     }
     const result = await project.emit()
     if(result.getEmitSkipped()) {
+        errorDetected = true
         console.warn("ts: Emit skipped!")
     }
     for(const diagnostic of result.getDiagnostics()) {
+        errorDetected = true
         console.warn(diagnostic.getMessageText())
+    }
+    if(errorDetected) {
+        throw new Error(`Typescript compilation of generated client failed. Check console output for details.`)
     }
 }
 
