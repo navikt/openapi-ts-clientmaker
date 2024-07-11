@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { generate } from '@nicolas-chaulet/openapi-typescript-codegen';
+import {createClient as generate, defineConfig} from '@hey-api/openapi-ts';
 import { Project } from 'ts-morph';
 import { copyFile } from "node:fs/promises";
 import { fileURLToPath } from "url";
@@ -61,7 +61,7 @@ const compile = async (tsConfigFilePath: string) => {
         tsConfigFilePath,
     })
     for(const diagnostic of project.getPreEmitDiagnostics()) {
-        console.info("ts: ", diagnostic.getMessageText())
+        console.info(`ts: ${diagnostic.getSourceFile()?.getFilePath()}, line ${diagnostic.getLineNumber()}:`, diagnostic.getMessageText())
     }
     const result = await project.emit()
     if(result.getEmitSkipped()) {
@@ -87,13 +87,21 @@ export type CreateClientOpts = {
 export const createClient = async (opts: CreateClientOpts) => {
     prepareOutDir(opts.outDir)
     // Generate typescript from given openapi spec
-    await generate({
+    const generateOpts = defineConfig({
         input: opts.openapiSpecFilePath,
-        useUnionTypes: true,
-        exportSchemas: true,
-        clientName: opts.clientClassName,
-        output: path.resolve(opts.outDir, "src")
+        name: opts.clientClassName,
+        services: {
+            asClass: true,
+        },
+        schemas: {
+            export: true,
+            // Reduce bundle size by not outputting descriptions:
+            type: 'form'
+        },
+        output: path.resolve(opts.outDir, "src"),
+        useOptions: false,
     })
+    await generate(generateOpts)
     //We can allow user provided custom tsconfig files in the future. For now, we just use a hardcoded default.
     // Copy tsconfig.out.json to out dir. Required so that the relative paths in it is correct when compiling
     const tsconfigFilePath = path.resolve(opts.outDir, 'tsconfig.out.json')
