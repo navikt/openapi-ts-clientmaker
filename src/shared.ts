@@ -40,6 +40,9 @@ const basePackageJson = {
     "exports": {
         ".": {
             "import": "./esm/index.js"
+        },
+        "./core/*": {
+            "import": "./esm/core/*"
         }
     },
     "_generatedBy": "@navikt/openapi-ts-clientmaker"
