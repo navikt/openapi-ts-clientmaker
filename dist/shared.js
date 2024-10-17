@@ -89,6 +89,9 @@ export const createClient = async (opts) => {
         },
         output: path.resolve(opts.outDir, "src"),
         useOptions: false,
+        types: {
+            enums: "javascript"
+        }
     });
     await generate(generateOpts);
     //We can allow user provided custom tsconfig files in the future. For now, we just use a hardcoded default.
