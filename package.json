@@ -1,7 +1,7 @@
 {
   "name": "@navikt/openapi-ts-clientmaker",
   "type": "module",
-  "version": "0.0.2-beta",
+  "version": "1.2.0",
   "description": "A node js cli to use when creating a typescript client from an openapi spec",
   "keywords": [
     "openapi",
