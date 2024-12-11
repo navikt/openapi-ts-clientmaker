@@ -91,7 +91,8 @@ export const createClient = async (opts) => {
         useOptions: false,
         types: {
             enums: "javascript"
-        }
+        },
+        client: "fetch"
     });
     await generate(generateOpts);
     //We can allow user provided custom tsconfig files in the future. For now, we just use a hardcoded default.
