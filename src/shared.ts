@@ -106,23 +106,25 @@ export const createClient = async (opts: CreateClientOpts) => {
         schemas: {
             export: true,
             // Reduce bundle size by not outputting descriptions:
-            type: 'form'
+            type: 'form',
+            // Keep legacy naming of generated schemas file: ($ prefix instead of Schema suffix)
+            name: (name) => `$${name}`,
         },
         output: path.resolve(opts.outDir, "src"),
         useOptions: false,
         types: {
             enums: "javascript"
         },
-        client: "fetch"
+        client: "legacy/fetch"
     })
     await generate(generateOpts)
     //We can allow user provided custom tsconfig files in the future. For now, we just use a hardcoded default.
     // Copy tsconfig.out.json to out dir. Required so that the relative paths in it is correct when compiling
     const tsconfigFilePath = path.resolve(opts.outDir, 'tsconfig.out.json')
     await copyFile(path.resolve(getScriptDirPath(), 'tsconfig.out.json'), tsconfigFilePath)
+    createOutPackageJson(opts.outDir, opts.packageJsonData)
     // Compile generated typescript
     await compile(tsconfigFilePath)
-    createOutPackageJson(opts.outDir, opts.packageJsonData)
     createYarnLock(opts.outDir)
 }
 
