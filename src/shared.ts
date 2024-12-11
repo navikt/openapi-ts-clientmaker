@@ -104,7 +104,7 @@ export const createClient = async (opts: CreateClientOpts) => {
         useOptions: false,
         plugins: [
             {
-                name: '@hey-api/types',
+                name: '@hey-api/typescript',
                 enums: "javascript"
             },
             {
@@ -114,7 +114,7 @@ export const createClient = async (opts: CreateClientOpts) => {
                 // Keep legacy naming of generated schemas file: ($ prefix instead of Schema suffix)
                 nameBuilder: (name) => `$${name}`,
             },
-            '@hey-api/services',
+            '@hey-api/sdk',
         ],
         client: "legacy/fetch"
     })
