@@ -43,9 +43,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hey-api/openapi-ts@npm:=0.55.0":
-  version: 0.55.0
-  resolution: "@hey-api/openapi-ts@npm:0.55.0"
+"@hey-api/openapi-ts@npm:=0.57.0":
+  version: 0.57.0
+  resolution: "@hey-api/openapi-ts@npm:0.57.0"
   dependencies:
     "@apidevtools/json-schema-ref-parser": "npm:11.7.2"
     c12: "npm:2.0.1"
@@ -55,7 +55,7 @@ __metadata:
     typescript: ^5.x
   bin:
     openapi-ts: bin/index.cjs
-  checksum: 10c0/812746bfa23044c353ae8e37a7f9823616e5f6bd782c49c9e2eb457e891a617a03f7243d4ff79463588a20625e60a3a7a6cf51cf61cb2da9ff1aa9618e8c0a16
+  checksum: 10c0/b001ed905e1d97dd78b99aa11edce7f258025da45188a6e0c346d1c85f789d6c59fb4dd2d580c03229cbf6a74e56eb5734e4437c90f098bbfbcba802682b66b2
   languageName: node
   linkType: hard
 
@@ -71,7 +71,7 @@ __metadata:
   resolution: "@navikt/openapi-ts-clientmaker@workspace:."
   dependencies:
     "@actions/core": "npm:^1.10.1"
-    "@hey-api/openapi-ts": "npm:=0.55.0"
+    "@hey-api/openapi-ts": "npm:=0.57.0"
     "@types/node": "npm:^20.12.7"
     ts-morph: "npm:^22.0.0"
     typescript: "npm:^5.3.3"
