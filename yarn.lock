@@ -25,14 +25,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apidevtools/json-schema-ref-parser@npm:11.7.2":
-  version: 11.7.2
-  resolution: "@apidevtools/json-schema-ref-parser@npm:11.7.2"
+"@apidevtools/json-schema-ref-parser@npm:11.7.3":
+  version: 11.7.3
+  resolution: "@apidevtools/json-schema-ref-parser@npm:11.7.3"
   dependencies:
     "@jsdevtools/ono": "npm:^7.1.3"
     "@types/json-schema": "npm:^7.0.15"
     js-yaml: "npm:^4.1.0"
-  checksum: 10c0/90dd8e60e25ccfe5c7de2453de893d5f5bb7c6cabcce028edf0678a119f0e433f422d730aa14fd718542e80fa7b3acf40923d69dc8e9f6c25603842b76ad2f16
+  checksum: 10c0/326dcb3d4dfaf3f75ecab1ffae99d71123cc0a062a5996ac3d0ae66a1c6a852975bbdf606d2ef559766119e84aa6ca72b155f90529458d9ce22ab9d6c513404c
   languageName: node
   linkType: hard
 
@@ -43,11 +43,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hey-api/openapi-ts@npm:=0.59.0":
-  version: 0.59.0
-  resolution: "@hey-api/openapi-ts@npm:0.59.0"
+"@hey-api/client-fetch@npm:=0.5.7":
+  version: 0.5.7
+  resolution: "@hey-api/client-fetch@npm:0.5.7"
+  checksum: 10c0/fc4408f0965ed9cc8cc9835caa9dea4247c6347b4a0bc16d8250522dbaf2853b93849ee3b802a1369ef8f715d22da3dcc2cd5d0e142da0bbae1a7da886b88327
+  languageName: node
+  linkType: hard
+
+"@hey-api/openapi-ts@npm:=0.60.1":
+  version: 0.60.1
+  resolution: "@hey-api/openapi-ts@npm:0.60.1"
   dependencies:
-    "@apidevtools/json-schema-ref-parser": "npm:11.7.2"
+    "@apidevtools/json-schema-ref-parser": "npm:11.7.3"
     c12: "npm:2.0.1"
     commander: "npm:12.1.0"
     handlebars: "npm:4.7.8"
@@ -55,7 +62,7 @@ __metadata:
     typescript: ^5.x
   bin:
     openapi-ts: bin/index.cjs
-  checksum: 10c0/0c0d16a4f75eb9b8eb2d31bb16fff356a1987ac0c495b60a7026d8885d3f54d43bdcd56fbd8d02353981634aabe9cc5116474c16c4fe6e8c6a6436a2c9aba5d5
+  checksum: 10c0/79eed025332ee1b48bacc8d7adc9c23d74cc0b3e26e81f00c6fda58dc665e542f47803fb5c51149e71040680f04c416b0e1ca2dac9abe3f48bad3e3af5049577
   languageName: node
   linkType: hard
 
@@ -71,7 +78,8 @@ __metadata:
   resolution: "@navikt/openapi-ts-clientmaker@workspace:."
   dependencies:
     "@actions/core": "npm:^1.10.1"
-    "@hey-api/openapi-ts": "npm:=0.59.0"
+    "@hey-api/client-fetch": "npm:=0.5.7"
+    "@hey-api/openapi-ts": "npm:=0.60.1"
     "@types/node": "npm:^20.12.7"
     ts-morph: "npm:^22.0.0"
     typescript: "npm:^5.3.3"
