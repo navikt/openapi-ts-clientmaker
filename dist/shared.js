@@ -4,6 +4,7 @@ import { createClient as generate, defineConfig } from '@hey-api/openapi-ts';
 import { Project } from 'ts-morph';
 import { copyFile } from "node:fs/promises";
 import { fileURLToPath } from "url";
+import { sanitizeTag } from "./methodNameBuilder/sanitizeTag.js";
 export const getScriptDirPath = () => {
     const scriptFilePath = fileURLToPath(import.meta.url);
     return path.dirname(scriptFilePath);
@@ -29,11 +30,11 @@ const basePackageJson = {
     "type": "module",
     "module": "./esm/index.js",
     "exports": {
-        ".": {
-            "import": "./esm/index.js"
+        "./types": {
+            "import": "./esm/types.gen.js"
         },
-        "./core/*": {
-            "import": "./esm/core/*"
+        "./sdk": {
+            "import": "./esm/sdk.gen.js"
         },
         "./schemas": {
             "import": "./esm/schemas.gen.js"
@@ -80,14 +81,18 @@ export const createClient = async (opts) => {
     prepareOutDir(opts.outDir);
     // Generate typescript from given openapi spec
     const generateOpts = defineConfig({
+        client: {
+            bundle: true,
+            name: '@hey-api/client-fetch'
+        },
         input: opts.openapiSpecFilePath,
-        name: opts.clientClassName,
         output: path.resolve(opts.outDir, "src"),
-        useOptions: false,
+        experimentalParser: true,
         plugins: [
             {
                 name: '@hey-api/typescript',
-                enums: "javascript"
+                enums: "javascript",
+                exportInlineEnums: true,
             },
             {
                 name: '@hey-api/schemas',
@@ -96,9 +101,33 @@ export const createClient = async (opts) => {
                 // Keep legacy naming of generated schemas file: ($ prefix instead of Schema suffix)
                 nameBuilder: (name) => `$${name}`,
             },
-            '@hey-api/sdk',
+            {
+                name: '@hey-api/sdk',
+                asClass: false,
+                // We generate "flat sdk" containing all operations, but prefix the function names with the operation tag.
+                // This gives us tree-shaking while also preserving some of the structure we used to have when generating
+                // class based sdk.
+                methodNameBuilder: (operation) => {
+                    // Remove/replace all characters that are illegal in a typescript identifier:
+                    const safeTags = "tags" in operation && operation.tags !== undefined ? operation.tags.map(sanitizeTag) : undefined;
+                    // If there are more than one tag, create prefix by joining them with _
+                    const tagsPrefix = safeTags?.join("_");
+                    if (tagsPrefix !== undefined) {
+                        return `${tagsPrefix}_${operation.id}`;
+                    }
+                    if (operation.id !== null) {
+                        return operation.id;
+                    }
+                    throw new Error(`methodNameBuilder: cannot create name when operation.id is null (${operation.path})`);
+                }
+            },
+            /* TODO
+            {
+                name: '@hey-api/transformers',
+                dates: true
+            }
+             */
         ],
-        client: "legacy/fetch"
     });
     await generate(generateOpts);
     //We can allow user provided custom tsconfig files in the future. For now, we just use a hardcoded default.
