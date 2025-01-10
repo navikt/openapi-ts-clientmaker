@@ -126,6 +126,7 @@ export const createClient = async (opts: CreateClientOpts) => {
             {
                 name: '@hey-api/sdk',
                 asClass: false,
+                throwOnError: true,
                 // We generate "flat sdk" containing all operations, but prefix the function names with the operation tag.
                 // This gives us tree-shaking while also preserving some of the structure we used to have when generating
                 // class based sdk.
