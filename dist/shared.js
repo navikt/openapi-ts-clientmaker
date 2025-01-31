@@ -38,6 +38,9 @@ const basePackageJson = {
         },
         "./schemas": {
             "import": "./esm/schemas.gen.js"
+        },
+        "./package.json": {
+            "import": "./package.json"
         }
     },
     "_generatedBy": "@navikt/openapi-ts-clientmaker"
