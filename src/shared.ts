@@ -98,7 +98,6 @@ export type CreateClientOpts = {
     openapiSpecFilePath: string;
     packageJsonData: RequiredPackageJsonData;
     outDir: string;
-    clientClassName: string;
 }
 
 
@@ -248,7 +247,6 @@ export const getDefaultParameterValues: () => {
     packageJsonName: string | undefined;
     openapiSpecFilePath: string;
     packageJsonFile: string | undefined;
-    clientClassName: string;
     outDir: string
 } = () => ({
     openapiSpecFilePath : "in/openapi.json",
@@ -256,7 +254,6 @@ export const getDefaultParameterValues: () => {
     packageJsonName: undefined,
     packageJsonVersion: undefined,
     outDir: "out/",
-    clientClassName: "Client",
 })
 
 export const resolveCliArgs = (): CreateClientOpts => {
@@ -266,7 +263,6 @@ export const resolveCliArgs = (): CreateClientOpts => {
         packageJsonName,
         packageJsonVersion,
         outDir,
-        clientClassName,
     } = getDefaultParameterValues()
 
     // Helper to get the argument value following a named argument specification
@@ -298,7 +294,7 @@ export const resolveCliArgs = (): CreateClientOpts => {
                 outDir = getNextArgVal(idx)
                 break;
             case "--client-name":
-                clientClassName = getNextArgVal(idx)
+                console.info(`--client-name argument has no effect in version 2`)
                 break;
         }
     }
@@ -307,6 +303,5 @@ export const resolveCliArgs = (): CreateClientOpts => {
         openapiSpecFilePath,
         packageJsonData,
         outDir,
-        clientClassName,
     }
 }
