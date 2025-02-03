@@ -34,9 +34,6 @@ Overstyrer verdiar frå package.json viss begge er definert.
 `--out-dir out/`<br>
 Generert innhald blir skrive ut til denne katalog
 
-`--client-name Client`<br>
-Generert typescript klient for gitt spesifikasjon blir gitt dette klassenamn.
-
 #### Eksempel på kommandolinje kall med node js direkte
 ```
 node dist/main.js \
@@ -55,7 +52,6 @@ docker run --rm \
   openapi-ts-clientmaker -- \
   --openapi-spec-file in/openapi.json \
   --package-json-file in/package.json \
-  --client-name MyClient
 ```
 
 #### Eksempel på bruk i github action.yaml
@@ -66,7 +62,6 @@ docker run --rm \
         openapi-spec-file: web/target/myproject.openapi.json
         package-json-file: web/src/main/openapi-ts-client/package.json
         out-dir: web/target/ts-client
-        client-name: MyClient
 ```
 
 ## Build
