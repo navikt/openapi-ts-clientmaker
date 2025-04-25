@@ -32,29 +32,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hey-api/client-fetch@npm:=0.6.0":
-  version: 0.6.0
-  resolution: "@hey-api/client-fetch@npm:0.6.0"
-  checksum: 10c0/2b79df6520b6c5e7cf945acd331b4401e177a47e9d8a2c02efb81e546dca79af5afc4f2e422aa8cfc491a03676431128295e073869999b230fec53cf8c344363
+"@hey-api/client-fetch@npm:=0.10.0":
+  version: 0.10.0
+  resolution: "@hey-api/client-fetch@npm:0.10.0"
+  peerDependencies:
+    "@hey-api/openapi-ts": < 2
+  checksum: 10c0/57fee58375f92599a4c4d439466225318a40ce0318059058a25eb9956d351f328987dde6f6dea548396e8e176be59c6c8c8fe77b5400de017f1b8433604972b1
   languageName: node
   linkType: hard
 
-"@hey-api/json-schema-ref-parser@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@hey-api/json-schema-ref-parser@npm:1.0.1"
+"@hey-api/json-schema-ref-parser@npm:1.0.5":
+  version: 1.0.5
+  resolution: "@hey-api/json-schema-ref-parser@npm:1.0.5"
   dependencies:
     "@jsdevtools/ono": "npm:^7.1.3"
     "@types/json-schema": "npm:^7.0.15"
     js-yaml: "npm:^4.1.0"
-  checksum: 10c0/3eced2a7a990be712497385eba262f2e5c84957e13b9999831d1541ef146db57eba78a558226ad5d2e6b7a3ad5bae4dbdc32a37e59dd4380c987ca1c74c7337c
+    lodash: "npm:^4.17.21"
+  checksum: 10c0/6b74c6a4dae87bf0890a87931aebdcb73983713b6bbe0093dafad746736bbbe40882cefdf37ffbe50d63173254be076c26633359b6913e283bcf66dc9e3a27d0
   languageName: node
   linkType: hard
 
-"@hey-api/openapi-ts@npm:=0.62.0":
-  version: 0.62.0
-  resolution: "@hey-api/openapi-ts@npm:0.62.0"
+"@hey-api/openapi-ts@npm:=0.66.6":
+  version: 0.66.6
+  resolution: "@hey-api/openapi-ts@npm:0.66.6"
   dependencies:
-    "@hey-api/json-schema-ref-parser": "npm:1.0.1"
+    "@hey-api/json-schema-ref-parser": "npm:1.0.5"
     c12: "npm:2.0.1"
     commander: "npm:13.0.0"
     handlebars: "npm:4.7.8"
@@ -62,7 +65,7 @@ __metadata:
     typescript: ^5.5.3
   bin:
     openapi-ts: bin/index.cjs
-  checksum: 10c0/19ac8f086f361479cc3b64644dc4083130570636ed6dca4b52290692fadacf6e1802c1e4ff7a6abb56c950013ce154f6c0d8feb58ab185a01e0b94158dcad329
+  checksum: 10c0/7bd732fc93af8fe8bce8ae10f1fbdf1ef55615e23243169ac83e144cb13ad46b3db6d08e940bfa4e04d714bff6309b83f87a61dbcb6292f312c75f44563b957a
   languageName: node
   linkType: hard
 
@@ -78,11 +81,11 @@ __metadata:
   resolution: "@navikt/openapi-ts-clientmaker@workspace:."
   dependencies:
     "@actions/core": "npm:^1.10.1"
-    "@hey-api/client-fetch": "npm:=0.6.0"
-    "@hey-api/openapi-ts": "npm:=0.62.0"
-    "@types/node": "npm:^20.12.7"
+    "@hey-api/client-fetch": "npm:=0.10.0"
+    "@hey-api/openapi-ts": "npm:=0.66.6"
+    "@types/node": "npm:^20.17.31"
     ts-morph: "npm:^22.0.0"
-    typescript: "npm:^5.3.3"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -132,12 +135,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.12.7":
-  version: 20.12.7
-  resolution: "@types/node@npm:20.12.7"
+"@types/node@npm:^20.17.31":
+  version: 20.17.31
+  resolution: "@types/node@npm:20.17.31"
   dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10c0/dce80d63a3b91892b321af823d624995c61e39c6a223cc0ac481a44d337640cc46931d33efb3beeed75f5c85c3bda1d97cef4c5cd4ec333caf5dee59cff6eca0
+    undici-types: "npm:~6.19.2"
+  checksum: 10c0/ab6fb60a7957bef39a9fcd3b9fbd8ea2f4a51d7b8522b0fd56e11b9fbbd3ff6cbd361e3bd510cdf9bbef54956332374c6646e28cce8ae597244623a0659153d0
   languageName: node
   linkType: hard
 
@@ -478,6 +481,13 @@ __metadata:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: 10c0/184a24b4eaacfce40ad9074c64fd42ac83cf74d8c8cd137718d456ced75051229e5061b8633c3366b8aada17945a7a356b337828c19da92b51ae62126575018f
+  languageName: node
+  linkType: hard
+
+"lodash@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash@npm:4.17.21"
+  checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
   languageName: node
   linkType: hard
 
@@ -846,23 +856,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.3.3":
-  version: 5.4.5
-  resolution: "typescript@npm:5.4.5"
+"typescript@npm:^5.8.3":
+  version: 5.8.3
+  resolution: "typescript@npm:5.8.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/2954022ada340fd3d6a9e2b8e534f65d57c92d5f3989a263754a78aba549f7e6529acc1921913560a4b816c46dce7df4a4d29f9f11a3dc0d4213bb76d043251e
+  checksum: 10c0/5f8bb01196e542e64d44db3d16ee0e4063ce4f3e3966df6005f2588e86d91c03e1fb131c2581baf0fb65ee79669eea6e161cd448178986587e9f6844446dbb48
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
-  version: 5.4.5
-  resolution: "typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"
+"typescript@patch:typescript@npm%3A^5.8.3#optional!builtin<compat/typescript>":
+  version: 5.8.3
+  resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5adc0c"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/db2ad2a16ca829f50427eeb1da155e7a45e598eec7b086d8b4e8ba44e5a235f758e606d681c66992230d3fc3b8995865e5fd0b22a2c95486d0b3200f83072ec9
+  checksum: 10c0/92ea03509e06598948559ddcdd8a4ae5a7ab475766d5589f1b796f5731b3d631a4c7ddfb86a3bd44d58d10102b132cd4b4994dda9b63e6273c66d77d6a271dbd
   languageName: node
   linkType: hard
 
@@ -889,10 +899,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~5.26.4":
-  version: 5.26.5
-  resolution: "undici-types@npm:5.26.5"
-  checksum: 10c0/bb673d7876c2d411b6eb6c560e0c571eef4a01c1c19925175d16e3a30c4c428181fb8d7ae802a261f283e4166a0ac435e2f505743aa9e45d893f9a3df017b501
+"undici-types@npm:~6.19.2":
+  version: 6.19.8
+  resolution: "undici-types@npm:6.19.8"
+  checksum: 10c0/078afa5990fba110f6824823ace86073b4638f1d5112ee26e790155f481f2a868cc3e0615505b6f4282bdf74a3d8caad715fd809e870c2bb0704e3ea6082f344
   languageName: node
   linkType: hard
 
