@@ -50,19 +50,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hey-api/openapi-ts@npm:=0.61.2":
-  version: 0.61.2
-  resolution: "@hey-api/openapi-ts@npm:0.61.2"
+"@hey-api/openapi-ts@npm:=0.62.0":
+  version: 0.62.0
+  resolution: "@hey-api/openapi-ts@npm:0.62.0"
   dependencies:
     "@hey-api/json-schema-ref-parser": "npm:1.0.1"
     c12: "npm:2.0.1"
     commander: "npm:13.0.0"
     handlebars: "npm:4.7.8"
   peerDependencies:
-    typescript: ^5.x
+    typescript: ^5.5.3
   bin:
     openapi-ts: bin/index.cjs
-  checksum: 10c0/c78e7548dae493249785f109c984a1b227de6e3f9fa28f42bee0b280cbe54904418bbd59913a6f5905ce887569ed5a7f5e51148dd0b7c29d3c85c0323bf4d7be
+  checksum: 10c0/19ac8f086f361479cc3b64644dc4083130570636ed6dca4b52290692fadacf6e1802c1e4ff7a6abb56c950013ce154f6c0d8feb58ab185a01e0b94158dcad329
   languageName: node
   linkType: hard
 
@@ -79,7 +79,7 @@ __metadata:
   dependencies:
     "@actions/core": "npm:^1.10.1"
     "@hey-api/client-fetch": "npm:=0.6.0"
-    "@hey-api/openapi-ts": "npm:=0.61.2"
+    "@hey-api/openapi-ts": "npm:=0.62.0"
     "@types/node": "npm:^20.12.7"
     ts-morph: "npm:^22.0.0"
     typescript: "npm:^5.3.3"

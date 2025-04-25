@@ -111,7 +111,6 @@ export const createClient = async (opts: CreateClientOpts) => {
         },
         input: opts.openapiSpecFilePath,
         output: path.resolve(opts.outDir, "src"),
-        experimentalParser: true,
         plugins: [
             {
                 name: '@hey-api/typescript',
