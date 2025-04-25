@@ -40,8 +40,7 @@ node dist/main.js \
     --openapi-spec-file ../../openapi.json \
     --package-json-name my-api-client \
     --package-json-version "0.0.1-alpha" \
-    --out-dir my-pkg \
-    --client-name MyClient
+    --out-dir my-pkg
 ```
 
 #### Eksempel på kommandolinje kall med docker image
