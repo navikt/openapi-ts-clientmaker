@@ -37,8 +37,13 @@ export type RequiredPackageJsonData = {
 
 const basePackageJson = {
     "type": "module",
-    "module": "./esm/index.js",
+    "dependencies": {
+        "@hey-api/client-fetch": "=0.10.0",
+    },
     "exports": {
+        "./client": {
+            "import": "./esm/client.gen.js"
+        },
         "./types": {
             "import": "./esm/types.gen.js"
         },
@@ -106,11 +111,13 @@ export const createClient = async (opts: CreateClientOpts) => {
     // Generate typescript from given openapi spec
     const generateOpts = () => defineConfig({
         input: opts.openapiSpecFilePath,
-        output: path.resolve(opts.outDir, "src"),
+        output: {
+            path: path.resolve(opts.outDir, "src"),
+            indexFile: false,
+        },
         plugins: [
             {
                 name: '@hey-api/client-fetch',
-                bundle: true,
                 throwOnError: true,
                 baseUrl: false,
             },
