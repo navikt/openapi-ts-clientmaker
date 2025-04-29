@@ -28,8 +28,13 @@ const prepareOutDir = (outDirPath) => {
 };
 const basePackageJson = {
     "type": "module",
-    "module": "./esm/index.js",
+    "dependencies": {
+        "@hey-api/client-fetch": "=0.10.0",
+    },
     "exports": {
+        "./client": {
+            "import": "./esm/client.gen.js"
+        },
         "./types": {
             "import": "./esm/types.gen.js"
         },
@@ -83,19 +88,23 @@ const createYarnLock = (outDir) => {
 export const createClient = async (opts) => {
     prepareOutDir(opts.outDir);
     // Generate typescript from given openapi spec
-    const generateOpts = defineConfig({
-        client: {
-            bundle: true,
-            name: '@hey-api/client-fetch'
-        },
+    const generateOpts = () => defineConfig({
         input: opts.openapiSpecFilePath,
-        output: path.resolve(opts.outDir, "src"),
-        experimentalParser: true,
+        output: {
+            path: path.resolve(opts.outDir, "src"),
+            indexFile: false,
+        },
         plugins: [
+            {
+                name: '@hey-api/client-fetch',
+                throwOnError: true,
+                baseUrl: false,
+            },
             {
                 name: '@hey-api/typescript',
                 enums: "javascript",
                 exportInlineEnums: true,
+                readOnlyWriteOnlyBehavior: "off",
             },
             {
                 name: '@hey-api/schemas',
@@ -106,8 +115,8 @@ export const createClient = async (opts) => {
             },
             {
                 name: '@hey-api/sdk',
+                // Enable this if transformers plugin is enabled: transformer: true,
                 asClass: false,
-                throwOnError: true,
                 // We generate "flat sdk" containing all operations, but prefix the function names with the operation tag.
                 // This gives us tree-shaking while also preserving some of the structure we used to have when generating
                 // class based sdk.
@@ -125,12 +134,12 @@ export const createClient = async (opts) => {
                     throw new Error(`methodNameBuilder: cannot create name when operation.id is null (${operation.path})`);
                 }
             },
-            /* TODO
+            /* Consider enabling this in a future (breaking) update:
             {
                 name: '@hey-api/transformers',
                 dates: true
             }
-             */
+            */
         ],
     });
     await generate(generateOpts);
@@ -222,10 +231,9 @@ export const getDefaultParameterValues = () => ({
     packageJsonName: undefined,
     packageJsonVersion: undefined,
     outDir: "out/",
-    clientClassName: "Client",
 });
 export const resolveCliArgs = () => {
-    let { openapiSpecFilePath, packageJsonFile, packageJsonName, packageJsonVersion, outDir, clientClassName, } = getDefaultParameterValues();
+    let { openapiSpecFilePath, packageJsonFile, packageJsonName, packageJsonVersion, outDir, } = getDefaultParameterValues();
     // Helper to get the argument value following a named argument specification
     const getNextArgVal = (currentIdx) => {
         const nextVal = process.argv[currentIdx + 1];
@@ -255,7 +263,7 @@ export const resolveCliArgs = () => {
                 outDir = getNextArgVal(idx);
                 break;
             case "--client-name":
-                clientClassName = getNextArgVal(idx);
+                console.info(`--client-name argument has no effect in version 2`);
                 break;
         }
     }
@@ -264,7 +272,6 @@ export const resolveCliArgs = () => {
         openapiSpecFilePath,
         packageJsonData,
         outDir,
-        clientClassName,
     };
 };
 //# sourceMappingURL=shared.js.map

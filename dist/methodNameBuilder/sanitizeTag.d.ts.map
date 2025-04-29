@@ -1,1 +1,1 @@
-{"version":3,"file":"sanitizeTag.d.ts","sourceRoot":"","sources":["../../src/methodNameBuilder/sanitizeTag.ts"],"names":[],"mappings":"AAGA,eAAO,MAAM,WAAW,SAAU,MAAM,WAOlC,CAAA"}
+{"version":3,"file":"sanitizeTag.d.ts","sourceRoot":"","sources":["../../src/methodNameBuilder/sanitizeTag.ts"],"names":[],"mappings":"AAGA,eAAO,MAAM,WAAW,GAAI,MAAM,MAAM,WAOlC,CAAA"}
