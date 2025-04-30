@@ -2,8 +2,8 @@
   // Basert på https://github.com/tsconfig/bases/blob/main/bases/vite-react.json og
   // https://github.com/tsconfig/bases/blob/main/bases/strictest.json.
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "es2022",
     "moduleResolution": "bundler",
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
@@ -21,6 +21,7 @@
     "outDir": "dist",
     "declaration": true,
     "declarationMap": true,
+    "skipLibCheck": true,
     "rootDir": "src"
   },
   "include": ["./src/"]

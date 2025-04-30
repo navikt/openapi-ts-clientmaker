@@ -15,7 +15,6 @@ const resolveActionInputs = (): CreateClientOpts => {
         packageJsonName,
         packageJsonVersion,
         outDir,
-        clientClassName,
     } = getDefaultParameterValues()
 
     openapiSpecFilePath = undefinedIfEmpty(core.getInput('openapi-spec-file')) || openapiSpecFilePath
@@ -23,14 +22,12 @@ const resolveActionInputs = (): CreateClientOpts => {
     packageJsonName = undefinedIfEmpty(core.getInput('package-json-name'))
     packageJsonVersion = undefinedIfEmpty(core.getInput('package-json-version'))
     outDir = undefinedIfEmpty(core.getInput('out-dir')) || outDir
-    clientClassName = undefinedIfEmpty(core.getInput('client-name')) || clientClassName
 
     const packageJsonData = resolveRequiredPackageJsonData(packageJsonFile, packageJsonName, packageJsonVersion)
     return {
         openapiSpecFilePath,
         packageJsonData,
         outDir,
-        clientClassName,
     }
 }
 

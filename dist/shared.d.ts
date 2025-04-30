@@ -8,7 +8,6 @@ export type CreateClientOpts = {
     openapiSpecFilePath: string;
     packageJsonData: RequiredPackageJsonData;
     outDir: string;
-    clientClassName: string;
 };
 export declare const createClient: (opts: CreateClientOpts) => Promise<void>;
 export declare const undefinedIfEmpty: (str: string) => string | undefined;
@@ -31,7 +30,6 @@ export declare const getDefaultParameterValues: () => {
     packageJsonName: string | undefined;
     openapiSpecFilePath: string;
     packageJsonFile: string | undefined;
-    clientClassName: string;
     outDir: string;
 };
 export declare const resolveCliArgs: () => CreateClientOpts;

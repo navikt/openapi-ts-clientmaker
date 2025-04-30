@@ -4,6 +4,7 @@ import { createClient as generate, defineConfig } from '@hey-api/openapi-ts';
 import { Project } from 'ts-morph';
 import { copyFile } from "node:fs/promises";
 import { fileURLToPath } from "url";
+import { sanitizeTag } from "./methodNameBuilder/sanitizeTag.js";
 export const getScriptDirPath = () => {
     const scriptFilePath = fileURLToPath(import.meta.url);
     return path.dirname(scriptFilePath);
@@ -27,13 +28,24 @@ const prepareOutDir = (outDirPath) => {
 };
 const basePackageJson = {
     "type": "module",
-    "module": "./esm/index.js",
+    "dependencies": {
+        "@hey-api/client-fetch": "=0.10.0",
+    },
     "exports": {
-        ".": {
-            "import": "./esm/index.js"
+        "./client": {
+            "import": "./esm/client.gen.js"
         },
-        "./core/*": {
-            "import": "./esm/core/*"
+        "./types": {
+            "import": "./esm/types.gen.js"
+        },
+        "./sdk": {
+            "import": "./esm/sdk.gen.js"
+        },
+        "./schemas": {
+            "import": "./esm/schemas.gen.js"
+        },
+        "./package.json": {
+            "import": "./package.json"
         }
     },
     "_generatedBy": "@navikt/openapi-ts-clientmaker"
@@ -76,31 +88,68 @@ const createYarnLock = (outDir) => {
 export const createClient = async (opts) => {
     prepareOutDir(opts.outDir);
     // Generate typescript from given openapi spec
-    const generateOpts = defineConfig({
+    const generateOpts = () => defineConfig({
         input: opts.openapiSpecFilePath,
-        name: opts.clientClassName,
-        services: {
-            asClass: true,
+        output: {
+            path: path.resolve(opts.outDir, "src"),
+            indexFile: false,
         },
-        schemas: {
-            export: true,
-            // Reduce bundle size by not outputting descriptions:
-            type: 'form'
-        },
-        output: path.resolve(opts.outDir, "src"),
-        useOptions: false,
-        types: {
-            enums: "javascript"
-        }
+        plugins: [
+            {
+                name: '@hey-api/client-fetch',
+                throwOnError: true,
+                baseUrl: false,
+            },
+            {
+                name: '@hey-api/typescript',
+                enums: "javascript",
+                exportInlineEnums: true,
+                readOnlyWriteOnlyBehavior: "off",
+            },
+            {
+                name: '@hey-api/schemas',
+                // Reduce bundle size by not outputting descriptions:
+                type: 'form',
+                // Keep legacy naming of generated schemas file: ($ prefix instead of Schema suffix)
+                nameBuilder: (name) => `$${name}`,
+            },
+            {
+                name: '@hey-api/sdk',
+                // Enable this if transformers plugin is enabled: transformer: true,
+                asClass: false,
+                // We generate "flat sdk" containing all operations, but prefix the function names with the operation tag.
+                // This gives us tree-shaking while also preserving some of the structure we used to have when generating
+                // class based sdk.
+                methodNameBuilder: (operation) => {
+                    // Remove/replace all characters that are illegal in a typescript identifier:
+                    const safeTags = "tags" in operation && operation.tags !== undefined ? operation.tags.map(sanitizeTag) : undefined;
+                    // If there are more than one tag, create prefix by joining them with _
+                    const tagsPrefix = safeTags?.join("_");
+                    if (tagsPrefix !== undefined) {
+                        return `${tagsPrefix}_${operation.id}`;
+                    }
+                    if (operation.id !== null) {
+                        return operation.id;
+                    }
+                    throw new Error(`methodNameBuilder: cannot create name when operation.id is null (${operation.path})`);
+                }
+            },
+            /* Consider enabling this in a future (breaking) update:
+            {
+                name: '@hey-api/transformers',
+                dates: true
+            }
+            */
+        ],
     });
     await generate(generateOpts);
     //We can allow user provided custom tsconfig files in the future. For now, we just use a hardcoded default.
     // Copy tsconfig.out.json to out dir. Required so that the relative paths in it is correct when compiling
     const tsconfigFilePath = path.resolve(opts.outDir, 'tsconfig.out.json');
     await copyFile(path.resolve(getScriptDirPath(), 'tsconfig.out.json'), tsconfigFilePath);
+    createOutPackageJson(opts.outDir, opts.packageJsonData);
     // Compile generated typescript
     await compile(tsconfigFilePath);
-    createOutPackageJson(opts.outDir, opts.packageJsonData);
     createYarnLock(opts.outDir);
 };
 export const undefinedIfEmpty = (str) => str.trim().length === 0 ? undefined : str;
@@ -182,10 +231,9 @@ export const getDefaultParameterValues = () => ({
     packageJsonName: undefined,
     packageJsonVersion: undefined,
     outDir: "out/",
-    clientClassName: "Client",
 });
 export const resolveCliArgs = () => {
-    let { openapiSpecFilePath, packageJsonFile, packageJsonName, packageJsonVersion, outDir, clientClassName, } = getDefaultParameterValues();
+    let { openapiSpecFilePath, packageJsonFile, packageJsonName, packageJsonVersion, outDir, } = getDefaultParameterValues();
     // Helper to get the argument value following a named argument specification
     const getNextArgVal = (currentIdx) => {
         const nextVal = process.argv[currentIdx + 1];
@@ -215,7 +263,7 @@ export const resolveCliArgs = () => {
                 outDir = getNextArgVal(idx);
                 break;
             case "--client-name":
-                clientClassName = getNextArgVal(idx);
+                console.info(`--client-name argument has no effect in version 2`);
                 break;
         }
     }
@@ -224,7 +272,6 @@ export const resolveCliArgs = () => {
         openapiSpecFilePath,
         packageJsonData,
         outDir,
-        clientClassName,
     };
 };
 //# sourceMappingURL=shared.js.map

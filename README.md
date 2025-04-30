@@ -34,17 +34,13 @@ Overstyrer verdiar frå package.json viss begge er definert.
 `--out-dir out/`<br>
 Generert innhald blir skrive ut til denne katalog
 
-`--client-name Client`<br>
-Generert typescript klient for gitt spesifikasjon blir gitt dette klassenamn.
-
 #### Eksempel på kommandolinje kall med node js direkte
 ```
 node dist/main.js \
     --openapi-spec-file ../../openapi.json \
     --package-json-name my-api-client \
     --package-json-version "0.0.1-alpha" \
-    --out-dir my-pkg \
-    --client-name MyClient
+    --out-dir my-pkg
 ```
 
 #### Eksempel på kommandolinje kall med docker image
@@ -55,7 +51,6 @@ docker run --rm \
   openapi-ts-clientmaker -- \
   --openapi-spec-file in/openapi.json \
   --package-json-file in/package.json \
-  --client-name MyClient
 ```
 
 #### Eksempel på bruk i github action.yaml
@@ -66,7 +61,6 @@ docker run --rm \
         openapi-spec-file: web/target/myproject.openapi.json
         package-json-file: web/src/main/openapi-ts-client/package.json
         out-dir: web/target/ts-client
-        client-name: MyClient
 ```
 
 ## Build
