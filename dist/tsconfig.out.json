@@ -25,6 +25,7 @@
     "outDir": "./esm",
     "declaration": true,
     "declarationMap": true,
+    "skipLibCheck": false
   },
   "include": ["./src/"]
 }
