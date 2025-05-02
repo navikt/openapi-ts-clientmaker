@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createClient as generate, defineConfig } from '@hey-api/openapi-ts';
 import { Project } from 'ts-morph';
-import { copyFile } from "node:fs/promises";
+import { copyFile, cp } from "node:fs/promises";
 import { fileURLToPath } from "url";
 import { sanitizeTag } from "./methodNameBuilder/sanitizeTag.js";
 export const getScriptDirPath = () => {
@@ -11,13 +11,16 @@ export const getScriptDirPath = () => {
 };
 const prepareOutDir = (outDirPath) => {
     const resolvedDir = path.resolve(outDirPath);
-    const cwd = path.resolve();
+    // const cwd = path.resolve()
     if (resolvedDir === "/") {
         throw new Error(`deleting root dir is not allowed`);
     }
-    if (!resolvedDir.startsWith(cwd)) {
-        throw new Error(`deleting dir outside of working dir is not allowed. out dir must be within working dir`);
+    /*
+    if(!resolvedDir.startsWith(cwd)) {
+        throw new Error(`deleting dir outside of working dir is not allowed. out dir must be within working dir`)
     }
+
+     */
     // Create directory if it doesn't exist
     fs.mkdirSync(resolvedDir, { recursive: true });
     // Delete all files and directories found in given outDirPath, without removing outDirPath itself.
@@ -147,6 +150,8 @@ export const createClient = async (opts) => {
     // Copy tsconfig.out.json to out dir. Required so that the relative paths in it is correct when compiling
     const tsconfigFilePath = path.resolve(opts.outDir, 'tsconfig.out.json');
     await copyFile(path.resolve(getScriptDirPath(), 'tsconfig.out.json'), tsconfigFilePath);
+    // Copy node_modules/@hey-api to out dir. Required for compilation of generated typescript.
+    await cp(path.resolve(getScriptDirPath(), '../node_modules/@hey-api'), path.resolve(opts.outDir, './node_modules/@hey-api'), { recursive: true });
     createOutPackageJson(opts.outDir, opts.packageJsonData);
     // Compile generated typescript
     await compile(tsconfigFilePath);
