@@ -11,16 +11,13 @@ export const getScriptDirPath = () => {
 };
 const prepareOutDir = (outDirPath) => {
     const resolvedDir = path.resolve(outDirPath);
-    // const cwd = path.resolve()
+    const cwd = path.resolve();
     if (resolvedDir === "/") {
         throw new Error(`deleting root dir is not allowed`);
     }
-    /*
-    if(!resolvedDir.startsWith(cwd)) {
-        throw new Error(`deleting dir outside of working dir is not allowed. out dir must be within working dir`)
+    if (!resolvedDir.startsWith(cwd)) {
+        throw new Error(`deleting dir outside of working dir is not allowed. out dir must be within working dir`);
     }
-
-     */
     // Create directory if it doesn't exist
     fs.mkdirSync(resolvedDir, { recursive: true });
     // Delete all files and directories found in given outDirPath, without removing outDirPath itself.
