@@ -19,7 +19,7 @@ runs:
         yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
         yarn config set npmScopes.navikt.npmAlwaysAuth true
         yarn config set npmScopes.navikt.npmAuthToken $NODE_AUTH_TOKEN
-        yarn install --immutable-cache
+        yarn install
         yarn npm publish
       env:
         YARN_ENABLE_IMMUTABLE_INSTALLS: 'false' # yarn install must fill inn the boilerplate needed for yarn publish.
