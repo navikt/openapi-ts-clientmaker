@@ -108,6 +108,9 @@ export const createClient = async (opts) => {
             {
                 name: '@hey-api/typescript',
                 enums: "javascript",
+                definitions: {
+                    case: "preserve"
+                }
             },
             {
                 name: '@hey-api/schemas',
