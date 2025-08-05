@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {createClient as generate, defineConfig} from '@hey-api/openapi-ts';
 import { Project } from 'ts-morph';
-import { copyFile, cp } from "node:fs/promises";
+import { copyFile } from "node:fs/promises";
 import { fileURLToPath } from "url";
 import {sanitizeTag} from "./methodNameBuilder/sanitizeTag.js";
 
@@ -37,9 +37,6 @@ export type RequiredPackageJsonData = {
 
 const basePackageJson = {
     "type": "module",
-    "dependencies": {
-        "@hey-api/client-fetch": "=0.10.0",
-    },
     "exports": {
         "./client": {
             "import": "./esm/client.gen.js"
@@ -115,6 +112,14 @@ export const createClient = async (opts: CreateClientOpts) => {
             path: path.resolve(opts.outDir, "src"),
             indexFile: false,
         },
+        parser: {
+            transforms: {
+                enums: 'root',
+                readWrite: {
+                    enabled: false
+                }
+            }
+        },
         plugins: [
             {
                 name: '@hey-api/client-fetch',
@@ -124,8 +129,6 @@ export const createClient = async (opts: CreateClientOpts) => {
             {
                 name: '@hey-api/typescript',
                 enums: "javascript",
-                exportInlineEnums: true,
-                readOnlyWriteOnlyBehavior: "off",
             },
             {
                 name: '@hey-api/schemas',
@@ -168,8 +171,6 @@ export const createClient = async (opts: CreateClientOpts) => {
     // Copy tsconfig.out.json to out dir. Required so that the relative paths in it is correct when compiling
     const tsconfigFilePath = path.resolve(opts.outDir, 'tsconfig.out.json')
     await copyFile(path.resolve(getScriptDirPath(), 'tsconfig.out.json'), tsconfigFilePath)
-    // Copy node_modules/@hey-api to out dir. Required for compilation of generated typescript.
-    await cp(path.resolve(getScriptDirPath(), '../node_modules/@hey-api'), path.resolve(opts.outDir, './node_modules/@hey-api'), {recursive: true})
     createOutPackageJson(opts.outDir, opts.packageJsonData)
     // Compile generated typescript
     await compile(tsconfigFilePath)

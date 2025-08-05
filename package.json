@@ -16,12 +16,11 @@
   "scripts": {
     "compile": "tsc --project tsconfig.json && node dist/copyTsconfig.js",
     "test": "tsc --project tsconfig.test.json && node testdist/test/test.js",
-    "main": "yarn compile && node dist/main.js"
+    "main": "yarn compile && node --enable-source-maps dist/main.js"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
-    "@hey-api/client-fetch": "=0.10.0",
-    "@hey-api/openapi-ts": "=0.66.7",
+    "@hey-api/openapi-ts": "=0.80.2",
     "ts-morph": "^22.0.0",
     "typescript": "^5.8.3"
   },
