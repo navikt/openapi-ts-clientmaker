@@ -32,6 +32,9 @@ const basePackageJson = {
         "./client": {
             "import": "./esm/client.gen.js"
         },
+        "./client/utils": {
+            "import": "./esm/client/utils.gen.js"
+        },
         "./types": {
             "import": "./esm/types.gen.js"
         },
