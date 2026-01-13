@@ -49,3 +49,5 @@ runs:
         && echo "hasChanged=false" >> $GITHUB_OUTPUT || echo "hasChanged=true" >> $GITHUB_OUTPUT
         # cleanup temp work dir
         rm -rf published
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.githubToken }}
