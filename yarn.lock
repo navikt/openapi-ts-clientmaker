@@ -56,7 +56,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hey-api/openapi-ts@npm:^0.90.3":
+"@hey-api/openapi-ts@npm:=0.90.3":
   version: 0.90.3
   resolution: "@hey-api/openapi-ts@npm:0.90.3"
   dependencies:
@@ -88,7 +88,7 @@ __metadata:
   resolution: "@navikt/openapi-ts-clientmaker@workspace:."
   dependencies:
     "@actions/core": "npm:^1.10.1"
-    "@hey-api/openapi-ts": "npm:^0.90.3"
+    "@hey-api/openapi-ts": "npm:=0.90.3"
     "@types/node": "npm:^20.19.28"
     ts-morph: "npm:^22.0.0"
     typescript: "npm:^5.8.3"
