@@ -19,6 +19,7 @@ runs:
         yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
         yarn config set npmScopes.navikt.npmAlwaysAuth true
         yarn config set npmScopes.navikt.npmAuthToken $NODE_AUTH_TOKEN
+        yarn config set enableScripts false
         yarn install
         yarn npm publish
       env:
