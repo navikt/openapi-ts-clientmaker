@@ -29,10 +29,16 @@ runs:
         # create temp work dir for published version of package
         mkdir published
         cd published
-        # setup and run npm install to download the published version of package
-        npm config set ${{ inputs.npmPackageScope }}:registry=https://npm.pkg.github.com
-        npm config set //npm.pkg.github.com/:_authToken=${{ inputs.githubToken}}
-        npm install --no-save ${{ inputs.npmPackageScope }}/${{ inputs.npmPackageName }}
+        # setup and run yarn install to download the published version of package
+        corepack enable
+        yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
+        yarn config set npmScopes.navikt.npmAlwaysAuth true
+        yarn config set npmScopes.navikt.npmAuthToken $NODE_AUTH_TOKEN
+        yarn config set enableScripts false
+        yarn config set nodeLinker node-modules
+        
+        touch yarn.lock
+        yarn add ${{ inputs.npmPackageScope }}/${{ inputs.npmPackageName }}
         # move installed package to published dir
         mv node_modules/${{ inputs.npmPackageScope }}/${{ inputs.npmPackageName }} ./
         rm -r node_modules
