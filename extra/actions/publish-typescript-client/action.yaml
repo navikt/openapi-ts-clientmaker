@@ -16,6 +16,7 @@ runs:
       working-directory: ${{ inputs.contentPath }}
       run: |
         corepack enable
+        yarn set version stable
         yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
         yarn config set npmScopes.navikt.npmAlwaysAuth true
         yarn config set npmScopes.navikt.npmAuthToken $NODE_AUTH_TOKEN

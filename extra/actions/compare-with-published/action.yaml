@@ -31,6 +31,7 @@ runs:
         cd published
         # setup and run yarn install to download the published version of package
         corepack enable
+        yarn set version stable
         yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
         yarn config set npmScopes.navikt.npmAlwaysAuth true
         yarn config set npmScopes.navikt.npmAuthToken $NODE_AUTH_TOKEN
