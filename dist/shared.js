@@ -89,10 +89,11 @@ export const createClient = async (opts) => {
     prepareOutDir(opts.outDir);
     // Generate typescript from given openapi spec
     const generateOpts = () => defineConfig({
-        input: opts.openapiSpecFilePath,
+        input: path.resolve(opts.openapiSpecFilePath),
         output: {
             path: path.resolve(opts.outDir, "src"),
             indexFile: false,
+            importFileExtension: ".js",
         },
         parser: {
             transforms: {
@@ -124,24 +125,27 @@ export const createClient = async (opts) => {
             },
             {
                 name: '@hey-api/sdk',
-                // Enable this if transformers plugin is enabled: transformer: true,
-                asClass: false,
                 // We generate "flat sdk" containing all operations, but prefix the function names with the operation tag.
                 // This gives us tree-shaking while also preserving some of the structure we used to have when generating
                 // class based sdk.
-                methodNameBuilder: (operation) => {
-                    // Remove/replace all characters that are illegal in a typescript identifier:
-                    const safeTags = "tags" in operation && operation.tags !== undefined ? operation.tags.map(sanitizeTag) : undefined;
-                    // If there are more than one tag, create prefix by joining them with _
-                    const tagsPrefix = safeTags?.join("_");
-                    if (tagsPrefix !== undefined) {
-                        return `${tagsPrefix}_${operation.id}`;
+                operations: {
+                    strategy: (operation) => {
+                        // Remove/replace all characters that are illegal in a typescript identifier:
+                        const safeTags = operation.tags !== undefined ? operation.tags.map(sanitizeTag) : undefined;
+                        // If there are more than one tag, create prefix by joining them with _
+                        const tagsPrefix = safeTags?.join("_");
+                        if (tagsPrefix !== undefined) {
+                            return [[`${tagsPrefix}_${operation.id}`]];
+                        }
+                        if (operation.id !== null) {
+                            return [[operation.id]];
+                        }
+                        throw new Error(`methodNameBuilder: cannot create name when operation.id is null (${operation.path})`);
+                    },
+                    methodName: {
+                        casing: "preserve"
                     }
-                    if (operation.id !== null) {
-                        return operation.id;
-                    }
-                    throw new Error(`methodNameBuilder: cannot create name when operation.id is null (${operation.path})`);
-                }
+                },
             },
             /* Consider enabling this in a future (breaking) update:
             {
