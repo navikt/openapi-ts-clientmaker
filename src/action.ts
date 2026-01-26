@@ -34,7 +34,13 @@ const resolveActionInputs = (): CreateClientOpts => {
 const main = async () => {
     // Read in action inputs
     const opts = resolveActionInputs()
-    await createClient(opts)
+    const {packageName} = await createClient(opts)
+    let [scope, name] = packageName.split("/")
+    if(name == null) {
+        name = scope
+    }
+    core.setOutput("npmPackageScope", scope)
+    core.setOutput("npmPackageName", name)
 }
 
 main().catch(e => {
