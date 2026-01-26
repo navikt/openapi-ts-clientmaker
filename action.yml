@@ -25,6 +25,11 @@ inputs:
     description: 'Generated typescript client class is given this class name'
     required: true
     default: 'Client'
+outputs:
+  npmPackageName:
+    description: "name property from generated package.json (without scope prefix)"
+  npmPackageScope:
+    description: "scope prefix part of name from generated package.json"
 runs:
   using: 'node20'
   main: 'dist/action.js'

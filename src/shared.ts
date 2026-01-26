@@ -69,6 +69,7 @@ const createOutPackageJson = (outDir: string, inputPackageJson: RequiredPackageJ
     }
     // write it to out/
     fs.writeFileSync(path.resolve(outDir, `package.json`), JSON.stringify(packageJson, undefined, 2))
+    return packageJson.name
 }
 
 const compile = async (tsConfigFilePath: string) => {
@@ -182,10 +183,11 @@ export const createClient = async (opts: CreateClientOpts) => {
     // Copy tsconfig.out.json to out dir. Required so that the relative paths in it is correct when compiling
     const tsconfigFilePath = path.resolve(opts.outDir, 'tsconfig.out.json')
     await copyFile(path.resolve(getScriptDirPath(), 'tsconfig.out.json'), tsconfigFilePath)
-    createOutPackageJson(opts.outDir, opts.packageJsonData)
+    const packageName = createOutPackageJson(opts.outDir, opts.packageJsonData)
     // Compile generated typescript
     await compile(tsconfigFilePath)
     createYarnLock(opts.outDir)
+    return {packageName}
 }
 
 export const undefinedIfEmpty = (str: string): string | undefined => str.trim().length === 0 ? undefined : str
