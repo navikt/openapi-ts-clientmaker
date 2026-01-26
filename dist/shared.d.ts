@@ -9,7 +9,9 @@ export type CreateClientOpts = {
     packageJsonData: RequiredPackageJsonData;
     outDir: string;
 };
-export declare const createClient: (opts: CreateClientOpts) => Promise<void>;
+export declare const createClient: (opts: CreateClientOpts) => Promise<{
+    packageName: string;
+}>;
 export declare const undefinedIfEmpty: (str: string) => string | undefined;
 export declare const readPackageJsonData: (packageJsonPath: string) => RequiredPackageJsonData;
 /**
