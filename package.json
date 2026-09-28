@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@hey-api/openapi-ts": "=0.90.3",
+    "@hey-api/openapi-ts": "=0.97.3",
     "ts-morph": "^22.0.0",
     "typescript": "^5.9.3"
   },
